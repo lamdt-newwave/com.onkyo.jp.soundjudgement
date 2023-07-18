@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <title>HTML Meta Tag</title>
-      <meta http-equiv = "refresh" content = "3; url = soundjudgement://app/record?record-type=free record" />
-   </head>
-   <body>
-      <p>Redirecting to another URL</p>
-   </body>
+<head>
+   <title>Redirect with Query Params</title>
+</head>
+
+<body>
+   <h1>Redirecting...</h1>
+
+   <script>
+      // Function to extract query parameters from the current URL
+      function getQueryParams(url) {
+         const queryString = url.split('?')[1];
+         const queryParams = {};
+         if (queryString) {
+            queryString.split('&').forEach((param) => {
+               const parts = param.split('=');
+               const key = decodeURIComponent(parts[0]);
+               const value = decodeURIComponent(parts[1]);
+               queryParams[key] = value;
+            });
+         }
+         return queryParams;
+      }
+
+      // Function to redirect with query parameters
+      function redirectToAnotherPage() {
+         const queryParams = getQueryParams(window.location.href);
+
+         // Modify the URL below to your desired destination page with query parameters
+         const destinationUrl = 'soundjudgement://app/record';
+         const urlWithQueryParams = new URL(destinationUrl);
+
+         for (const key in queryParams) {
+            urlWithQueryParams.searchParams.append(key, queryParams[key]);
+         }
+
+         window.location.href = urlWithQueryParams.toString();
+      }
+
+      // Call the redirect function after some time (e.g., 3 seconds)
+      setTimeout(redirectToAnotherPage, 3000);
+   </script>
+</body>
+
 </html>
